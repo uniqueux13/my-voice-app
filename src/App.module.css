@@ -1,0 +1,114 @@
+/* src/App.module.css */
+.container {
+    font-family: sans-serif;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #213547; /* <--- ADD THIS LINE */
+  }
+  
+  .section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fff;
+     color: #213547;
+  }
+  
+  .status {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    gap: 0.5rem; /* Adds space between buttons */
+    margin-bottom: 1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  }
+  
+  .button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+  }
+  
+  .button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  .button:disabled {
+    background-color: #aaa;
+    border-color: #aaa;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .buttonActive {
+    background-color: #dc3545; /* Red when active (listening/speaking) */
+    border-color: #dc3545;
+  }
+  
+  .transcriptBox {
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      padding: 0.5rem 1rem;
+      min-height: 50px;
+      border-radius: 4px;
+      margin-top: 1rem;
+  }
+  
+  .transcriptBox h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #333;
+  }
+  
+  .divider {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 2rem 0;
+  }
+  
+  .inputGroup {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+  }
+  
+  .textInput {
+      flex-grow: 1; /* Allows input to take available space */
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+  
+  .textInput:disabled {
+      background-color: #e9ecef;
+      opacity: 0.7;
+  }
+
+  .loading {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    font-size: 0.9em;
+  }

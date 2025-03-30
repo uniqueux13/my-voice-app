@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"  # Your build command (Vite default)
+  publish = "dist"           # Your publish directory (Vite default)
+  functions = "netlify/functions" # Directory for serverless functions
+
+
+[dev]
+  command = "npm run dev" # Command to start your Vite dev server
+  targetPort = 5173       # Your Vite dev server port (check if different)
+  port = 8888             # Port for Netlify Dev proxy (access via localhost:8888)
+  publish = "dist"        # Should match build.publish
+  framework = "#vite"       # Helps Netlify Dev configure things for Vite
