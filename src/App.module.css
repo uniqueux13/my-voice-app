@@ -112,3 +112,38 @@
     z-index: 1000;
     font-size: 0.9em;
   }
+
+  .aiResponseBox {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #e9f5ff; /* Light blue background */
+    border: 1px solid #bde0fe;   /* Blue border */
+    border-radius: 4px;
+  }
+  
+  .aiResponseBox h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #075985; /* Darker blue */
+  }
+  
+  .aiResponseBox p {
+    margin-bottom: 0;
+    color: #333;
+  }
+  
+  .aiResponseBox p i { /* Style for the loading text */
+      color: #555;
+  }
+  
+  /* Optional: Style for loading indicator if you prefer */
+  .loading {
+    /* ... your existing loading styles ... */
+    /* Example: */
+    display: inline-block; /* Or block */
+    margin-top: 1rem;
+    padding: 5px 10px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 3px;
+  }
