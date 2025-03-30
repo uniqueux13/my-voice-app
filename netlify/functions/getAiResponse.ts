@@ -75,24 +75,35 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     console.log("Received from OpenAI:", aiResponse);
 
     // 4. Return the AI response
-    return {
+    // --- FIX APPLIED HERE ---
+    // Explicitly define the headers object with the required type
+    const responseHeaders: { [header: string]: string | number | boolean } = {
+        'Content-Type': 'application/json',
+    };
+
+    return { // Return the successfully processed response
       statusCode: 200,
       body: JSON.stringify({ response: aiResponse }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      // Use the explicitly typed headers object here
+      headers: responseHeaders,
     };
+    // --- END OF FIX ---
 
   } catch (error) {
     console.error("Error calling OpenAI API:", error);
     let errorMessage = "Failed to get response from AI.";
-    if (error.response) { // Handle potential errors from OpenAI API itself
-      console.error("OpenAI Error Status:", error.response.status);
-      console.error("OpenAI Error Data:", error.response.data);
-      errorMessage = `OpenAI API Error: ${error.response.data?.error?.message || error.message}`;
-    } else {
+    // Check if error is an AxiosError or similar structure from OpenAI client
+    // Error structure might vary based on OpenAI library version
+    if (error.response) {
+        console.error("OpenAI Error Status:", error.response.status);
+        console.error("OpenAI Error Data:", error.response.data);
+        // Attempt to get a more specific message if available
+        errorMessage = `OpenAI API Error: ${error.response.data?.error?.message || error.message}`;
+    } else if (error instanceof Error) { // Standard JavaScript error
         errorMessage = error.message;
     }
+    // Fallback error message already set
+
     return {
       statusCode: 500, // Internal Server Error
       body: JSON.stringify({ error: errorMessage }),

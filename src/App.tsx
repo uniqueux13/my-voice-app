@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState, useEffect, useCallback, useRef } from 'react'; // Added useRef
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import styles from './App.module.css';
 
@@ -32,7 +32,7 @@ const App: React.FC = () => {
     };
     console.log("Attempting to speak:", text);
     synth.speak(utterance);
-  }, [synth]); // Removed isSynthesizing dependency here to allow interruption
+  }, [synth]);
 
   // Define commands - Can keep simple ones, or rely solely on AI
   const commands = [
@@ -84,8 +84,10 @@ const App: React.FC = () => {
           });
 
           if (!response.ok) {
-              const errorBody = await response.json().catch(() => ({ error: "Failed to parse error response" }));
-              throw new Error(`API Error (${response.status}): ${errorBody?.error || response.statusText}`);
+              // Try to parse error json from function response, provide fallback
+              const errorBody = await response.json().catch(() => ({ error: "Failed to parse error response from function." }));
+              // Construct error message including status code
+              throw new Error(`Function Error (${response.status}): ${errorBody?.error || response.statusText}`);
           }
 
           const data = await response.json();
@@ -93,12 +95,26 @@ const App: React.FC = () => {
               console.log("AI Response received:", data.response);
               speak(data.response); // Speak the AI's response
           } else {
-              throw new Error("Received empty response field from function.");
+              // This case might happen if function returns 200 OK but empty/wrong body structure
+              throw new Error("Received success status but no valid response field from function.");
           }
 
-      } catch (error) {
-          console.error("Error fetching AI response:", error);
-          speak(`Sorry, I encountered an error trying to respond. ${error.message}`); // Give verbal error feedback
+      } catch (error) { // Catch block handles fetch errors or errors thrown above
+          console.error("Error fetching AI response:", error); // Log the original error regardless
+
+          // --- FIX APPLIED HERE ---
+          let feedbackMessage = "Sorry, I encountered an unknown error trying to respond."; // Default message
+          if (error instanceof Error) {
+              // If it's an actual Error object, use its message
+              // We already include status/details in the message when throwing !response.ok
+              feedbackMessage = `Sorry, I encountered an error: ${error.message}`;
+          } else {
+              // Optional: Handle cases where something other than an Error was thrown
+              console.log("Caught a non-Error value in getAiResponse:", error);
+          }
+          speak(feedbackMessage); // Give verbal error feedback safely
+          // --- END OF FIX ---
+
       } finally {
           setIsAiResponding(false); // Clear loading state
       }
